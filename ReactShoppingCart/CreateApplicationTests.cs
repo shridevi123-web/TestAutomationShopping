@@ -68,7 +68,7 @@ namespace ReactShoppingCart
 
             /* For the first item, increase quantity to 3 */
             driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[1]")).Click();
-            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[1]")).Click();
+             driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[1]")).Click();
 
             /*Check value of Total Items, Total Payment */
             Assert.AreEqual(Check_TotalItemsInCart(), "4");
