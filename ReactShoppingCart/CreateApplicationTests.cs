@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using OpenQA.Selenium.Chrome;
 using ReactShoppingCart.Common;
 using OpenQA.Selenium.Remote;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Safari;
 
 namespace ReactShoppingCart
 {
@@ -65,9 +67,9 @@ namespace ReactShoppingCart
             Assert.IsTrue(Check_DeleteButtonExists());
 
             /*clear cart */
-            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div/div/button[2]")).Click();            
-           
-           // driver.Close();
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div/div/button[2]")).Click();
+
+            driver.Quit();
         }
 
 
@@ -142,71 +144,26 @@ namespace ReactShoppingCart
             /*Check that message “Checkout successfully” display*/
             string checkOutSuccessfullMessage = checkoutDisplayMessage.Text;
             Assert.IsTrue(checkOutSuccessfullMessage.Contains("Checkout successfull"), checkoutDisplayMessage + "Checkout is Unsuccessfull" );
-            driver.Close();
+            driver.Quit();
 
         }
-
-
-        [Test, Category("Scenario_1")]
-        
-        public void Test_case_Scenario_1_FirefoxBrowser()
-        {
-
-            DesiredCapabilities capabilities = new DesiredCapabilities(); 
-            capabilities.SetCapability("os", "windows");
-            capabilities.SetCapability("browserstack.user", "shridevireddy_pOY0ka");
-            capabilities.SetCapability("browserstack.key", "Ge52czmmUuqFnBrUUE84");
-            driver = new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), capabilities);
-
-            // Add these capabilities to your test script
-            OpenQA.Selenium.Firefox.FirefoxOptions fireFoxCapability = new OpenQA.Selenium.Firefox.FirefoxOptions();
-            fireFoxCapability.AddAdditionalCapability("os", "Windows", true);
-            fireFoxCapability.AddAdditionalCapability("os_version", "10", true);
-            fireFoxCapability.AddAdditionalCapability("browser", "Firefox", true);
-            fireFoxCapability.AddAdditionalCapability("browser_version", "latest", true);
-
-            driver.Navigate().GoToUrl("https://react-shooping-cart.netlify.app/");
-
-            /* click one item Add to Cart*/
-            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[1]/div/button")).Click();
-
-            /*Click on Cart */
-            driver.FindElement(By.XPath("//div[@id='root']/header/a[3]")).Click();
-
-            Assert.AreEqual(Check_TotalItemsInCart(), "1");
-            Assert.AreEqual(Check_TotalPaymentInCart(), "$39.11");
-            Assert.IsTrue(Check_DeleteButtonExists());
-
-            /*clear cart */
-            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div/div/button[2]")).Click();
-
-            // driver.Close();
-        }
-
-
         [Test, Category("Scenario_2")]
         [Obsolete]
-        public void Test_case_Scenario_2_FirefoxBrowser()
+        public void Test_case_Scenario_2_SafariBrowser_ios()
         {
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.SetCapability("os", "windows");
-            capabilities.SetCapability("browserstack.user", "shridevireddy_pOY0ka");
-            capabilities.SetCapability("browserstack.key", "Ge52czmmUuqFnBrUUE84");
-            driver = new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), capabilities);
-
-            // Add these capabilities to your test script
-            OpenQA.Selenium.Firefox.FirefoxOptions firefoxCapability = new OpenQA.Selenium.Firefox.FirefoxOptions();
-            firefoxCapability.AddAdditionalCapability("os", "Windows", true);
-            firefoxCapability.AddAdditionalCapability("os_version", "10", true);
-            firefoxCapability.AddAdditionalCapability("browser", "Firefox", true);
-            firefoxCapability.AddAdditionalCapability("browser_version", "latest", true);
-
+            SafariOptions capability = new SafariOptions();
+            capability.AddAdditionalCapability("os_version", "14");
+            capability.AddAdditionalCapability("device", "iPhone 12");
+            capability.AddAdditionalCapability("real_mobile", "true");
+            capability.AddAdditionalCapability("browserstack.local", "false");
+            capability.AddAdditionalCapability("browserstack.user", "shridevireddy_pOY0ka");
+            capability.AddAdditionalCapability("browserstack.key", "Ge52czmmUuqFnBrUUE84");
+            driver = new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), capability);
             driver.Navigate().GoToUrl("https://react-shooping-cart.netlify.app/");
 
+           
+          
             // Testing the home page
-
-            firefoxCapability.AddAdditionalCapability("project", "React_TestSecnario_2", true);
-            firefoxCapability.AddAdditionalCapability("name", "TestScenario_2", true);
 
 
             /* click first item- Add to Cart*/
@@ -255,7 +212,365 @@ namespace ReactShoppingCart
             /*Check that message “Checkout successfully” display*/
             string checkOutSuccessfullMessage = checkoutDisplayMessage.Text;
             Assert.IsTrue(checkOutSuccessfullMessage.Contains("Checkout successfull"), checkoutDisplayMessage + "Checkout is Unsuccessfull");
-            driver.Close();
+            driver.Quit();
+
+        }
+
+        [Test, Category("Scenario_2")]
+        [Obsolete]
+        public void Test_case_Scenario_2_ChromeBrowser_AndroidDevice()
+        {
+            ChromeOptions capability = new ChromeOptions();
+            capability.AddAdditionalCapability("os_version", "10.0", true);
+            capability.AddAdditionalCapability("device", "Samsung Galaxy S20", true);
+            capability.AddAdditionalCapability("real_mobile", "true", true);
+            capability.AddAdditionalCapability("browserstack.local", "false", true);
+            capability.AddAdditionalCapability("browserstack.user", "shridevireddy_pOY0ka", true);
+            capability.AddAdditionalCapability("browserstack.key", "Ge52czmmUuqFnBrUUE84", true);
+            driver = new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), capability);
+            driver.Navigate().GoToUrl("https://react-shooping-cart.netlify.app/");
+
+
+
+
+
+            /* click first item- Add to Cart*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[1]/div/button")).Click();
+
+            /* click second item- Add to Cart*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[2]/div/button")).Click();
+
+
+            /*Click on Cart */
+            driver.FindElement(By.XPath("//div[@id='root']/header/a[3]")).Click();
+
+            /* For the first item, increase quantity to 3 */
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[1]")).Click();
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[1]")).Click();
+
+            /*Check value of Total Items, Total Payment */
+            Assert.AreEqual(Check_TotalItemsInCart(), "4");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$375.25");
+
+            /*Check that Reduce button displays for the first item */
+            Assert.IsTrue(Check_ReduceButtonExists());
+
+            /*Check that Delete button displays for the second item */
+            Assert.IsTrue(Check_DeleteButtonExistsSecondItem());
+
+            /*For the first item, decrease quantity to 2 */
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[2]")).Click();
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[2]")).Click();
+
+
+            /*Check value of Total Items, Total Payment */
+            Assert.AreEqual(Check_TotalItemsInCart(), "2");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$297.03");
+
+            /*Delete the second item*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[2]/div[4]/button[2]")).Click();
+
+            /* Check that the first item is removed from cart */
+            Assert.AreEqual(Check_TotalItemsInCart(), "1");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$39.11");
+
+            /*Click Checkout button*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div/div/button[1]")).Click();
+
+            /*Check that message “Checkout successfully” display*/
+            string checkOutSuccessfullMessage = checkoutDisplayMessage.Text;
+            Assert.IsTrue(checkOutSuccessfullMessage.Contains("Checkout successfull"), checkoutDisplayMessage + "Checkout is Unsuccessfull");
+            driver.Quit();
+
+        }
+        [Test, Category("Scenario_2")]
+        [Obsolete]
+        public void Test_case_Scenario_2_EdgeBrowser()
+        {
+            EdgeOptions capability = new EdgeOptions();
+
+            capability.AddAdditionalCapability("browserstack.user", "shridevireddy_pOY0ka");
+            capability.AddAdditionalCapability("browserstack.key", "Ge52czmmUuqFnBrUUE84");
+            capability.AddAdditionalCapability("os", "Windows");
+            capability.AddAdditionalCapability("os_version", "10");
+            capability.AddAdditionalCapability("browser", "Edge");
+            capability.AddAdditionalCapability("browser_version", "latest");  // can select "latest-beta", "latest-1", "latest-2" ...
+            driver = new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), capability);
+
+            driver.Navigate().GoToUrl("https://react-shooping-cart.netlify.app/");
+
+            // Testing the home page
+
+            /* click first item- Add to Cart*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[1]/div/button")).Click();
+
+            /* click second item- Add to Cart*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[2]/div/button")).Click();
+
+
+            /*Click on Cart */
+            driver.FindElement(By.XPath("//div[@id='root']/header/a[3]")).Click();
+
+            /* For the first item, increase quantity to 3 */
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[1]")).Click();
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[1]")).Click();
+
+            /*Check value of Total Items, Total Payment */
+            Assert.AreEqual(Check_TotalItemsInCart(), "4");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$375.25");
+
+            /*Check that Reduce button displays for the first item */
+            Assert.IsTrue(Check_ReduceButtonExists());
+
+            /*Check that Delete button displays for the second item */
+            Assert.IsTrue(Check_DeleteButtonExistsSecondItem());
+
+            /*For the first item, decrease quantity to 2 */
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[2]")).Click();
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[2]")).Click();
+
+
+            /*Check value of Total Items, Total Payment */
+            Assert.AreEqual(Check_TotalItemsInCart(), "2");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$297.03");
+
+            /*Delete the second item*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[2]/div[4]/button[2]")).Click();
+
+            /* Check that the first item is removed from cart */
+            Assert.AreEqual(Check_TotalItemsInCart(), "1");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$39.11");
+
+            /*Click Checkout button*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div/div/button[1]")).Click();
+
+            /*Check that message “Checkout successfully” display*/
+            string checkOutSuccessfullMessage = checkoutDisplayMessage.Text;
+            Assert.IsTrue(checkOutSuccessfullMessage.Contains("Checkout successfull"), checkoutDisplayMessage + "Checkout is Unsuccessfull");
+            driver.Quit();
+
+        }
+
+
+        [Test, Category("Scenario_1")]
+        
+        public void Test_case_Scenario_1_FirefoxBrowser()
+        {      
+
+            CodePagesEncodingProvider.Instance.GetEncoding(437);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            // Input capabilities
+            FirefoxOptions capability = new FirefoxOptions();
+
+            capability.AddAdditionalCapability("browser", "Firefox", true);
+            capability.AddAdditionalCapability("os", "Windows", true);
+            capability.AddAdditionalCapability("browserstack.user", "shridevireddy_pOY0ka", true);
+            capability.AddAdditionalCapability("browserstack.key", "Ge52czmmUuqFnBrUUE84", true);
+
+            FirefoxProfile firefoxProfile = new FirefoxProfile();
+            firefoxProfile.SetPreference("plugin.state.flash", 0);  // Disabling flash through Firefox Profile
+            firefoxProfile.SetPreference("intl.accept_languages", "fr");  // Setting French as the language
+                                                                          // Add as many preferences in the profile as you want
+            capability.Profile = firefoxProfile;
+            driver = new RemoteWebDriver(
+              new Uri("https://hub-cloud.browserstack.com/wd/hub/"), capability
+            );
+            
+
+            driver.Navigate().GoToUrl("https://react-shooping-cart.netlify.app/");
+
+            /* click one item Add to Cart*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[1]/div/button")).Click();
+
+            /*Click on Cart */
+            driver.FindElement(By.XPath("//div[@id='root']/header/a[3]")).Click();
+
+            Assert.AreEqual(Check_TotalItemsInCart(), "1");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$39.11");
+            Assert.IsTrue(Check_DeleteButtonExists());
+
+            /*clear cart */
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div/div/button[2]")).Click();
+
+            driver.Quit();
+        }
+
+
+        [Test, Category("Scenario_1")]
+
+        public void Test_case_Scenario_1_EdgeBrowser()
+        {
+            
+            EdgeOptions capability = new EdgeOptions();
+
+            capability.AddAdditionalCapability("browserstack.user", "shridevireddy_pOY0ka");
+            capability.AddAdditionalCapability("browserstack.key", "Ge52czmmUuqFnBrUUE84");
+            capability.AddAdditionalCapability("os", "Windows");
+            capability.AddAdditionalCapability("os_version", "10");
+            capability.AddAdditionalCapability("browser", "Edge");
+            capability.AddAdditionalCapability("browser_version", "latest");  // can select "latest-beta", "latest-1", "latest-2" ...
+            driver = new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), capability);
+            driver.Navigate().GoToUrl("https://react-shooping-cart.netlify.app/");
+
+            /* click one item Add to Cart*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[1]/div/button")).Click();
+
+            /*Click on Cart */
+            driver.FindElement(By.XPath("//div[@id='root']/header/a[3]")).Click();
+
+            Assert.AreEqual(Check_TotalItemsInCart(), "1");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$39.11");
+            Assert.IsTrue(Check_DeleteButtonExists());
+
+            /*clear cart */
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div/div/button[2]")).Click();
+
+            driver.Quit();
+        }
+
+        [Test, Category("Scenario_1")]
+
+        public void Test_case_Scenario_1_SafariBrowser_ios()
+        {
+
+
+            SafariOptions capability = new SafariOptions();
+            capability.AddAdditionalCapability("os_version", "14");
+            capability.AddAdditionalCapability("device", "iPhone 12");
+            capability.AddAdditionalCapability("real_mobile", "true");
+            capability.AddAdditionalCapability("browserstack.local", "false");
+            capability.AddAdditionalCapability("browserstack.user", "shridevireddy_pOY0ka");
+            capability.AddAdditionalCapability("browserstack.key", "Ge52czmmUuqFnBrUUE84");
+            driver = new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), capability);
+            driver.Navigate().GoToUrl("https://react-shooping-cart.netlify.app/");
+
+            /* click one item Add to Cart*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[1]/div/button")).Click();
+
+            /*Click on Cart */
+            driver.FindElement(By.XPath("//div[@id='root']/header/a[3]")).Click();
+
+            Assert.AreEqual(Check_TotalItemsInCart(), "1");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$39.11");
+            Assert.IsTrue(Check_DeleteButtonExists());
+
+            /*clear cart */
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div/div/button[2]")).Click();
+
+            driver.Quit();
+        }
+
+        [Test, Category("Scenario_1")]
+
+        public void Test_case_Scenario_1_ChromeBrowser_AndroidDevice()
+        {
+
+            ChromeOptions capability = new ChromeOptions();
+            capability.AddAdditionalCapability("os_version", "10.0", true);
+            capability.AddAdditionalCapability("device", "Samsung Galaxy S20", true);
+            capability.AddAdditionalCapability("real_mobile", "true", true);
+            capability.AddAdditionalCapability("browserstack.local", "false", true);
+            capability.AddAdditionalCapability("browserstack.user", "shridevireddy_pOY0ka", true);
+            capability.AddAdditionalCapability("browserstack.key", "Ge52czmmUuqFnBrUUE84", true);
+            driver = new RemoteWebDriver(new Uri("http://hub-cloud.browserstack.com/wd/hub/"), capability);
+            driver.Navigate().GoToUrl("https://react-shooping-cart.netlify.app/");
+
+
+
+
+            /* click one item Add to Cart*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[1]/div/button")).Click();
+
+            /*Click on Cart */
+            driver.FindElement(By.XPath("//div[@id='root']/header/a[3]")).Click();
+
+            Assert.AreEqual(Check_TotalItemsInCart(), "1");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$39.11");
+            Assert.IsTrue(Check_DeleteButtonExists());
+
+            /*clear cart */
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div/div/button[2]")).Click();
+
+            driver.Quit();
+        }
+
+        [Test, Category("Scenario_2")]
+        [Obsolete]
+        public void Test_case_Scenario_2_FirefoxBrowser()
+        {
+
+            CodePagesEncodingProvider.Instance.GetEncoding(437);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+            // Input capabilities
+            FirefoxOptions capability = new FirefoxOptions();
+
+            capability.AddAdditionalCapability("browser", "Firefox", true);
+            capability.AddAdditionalCapability("os", "Windows", true);
+            capability.AddAdditionalCapability("browserstack.user", "shridevireddy_pOY0ka", true);
+            capability.AddAdditionalCapability("browserstack.key", "Ge52czmmUuqFnBrUUE84", true);
+
+            FirefoxProfile firefoxProfile = new FirefoxProfile();
+            firefoxProfile.SetPreference("plugin.state.flash", 0);  // Disabling flash through Firefox Profile
+            firefoxProfile.SetPreference("intl.accept_languages", "fr");  // Setting French as the language
+                                                                          // Add as many preferences in the profile as you want
+            capability.Profile = firefoxProfile;
+            driver = new RemoteWebDriver(
+              new Uri("https://hub-cloud.browserstack.com/wd/hub/"), capability
+            );
+
+
+            driver.Navigate().GoToUrl("https://react-shooping-cart.netlify.app/");
+
+            // Testing the home page
+
+            /* click first item- Add to Cart*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[1]/div/button")).Click();
+
+            /* click second item- Add to Cart*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div[2]/div/button")).Click();
+
+
+            /*Click on Cart */
+            driver.FindElement(By.XPath("//div[@id='root']/header/a[3]")).Click();
+
+            /* For the first item, increase quantity to 3 */
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[1]")).Click();
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[1]")).Click();
+
+            /*Check value of Total Items, Total Payment */
+            Assert.AreEqual(Check_TotalItemsInCart(), "4");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$375.25");
+
+            /*Check that Reduce button displays for the first item */
+            Assert.IsTrue(Check_ReduceButtonExists());
+
+            /*Check that Delete button displays for the second item */
+            Assert.IsTrue(Check_DeleteButtonExistsSecondItem());
+
+            /*For the first item, decrease quantity to 2 */
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[2]")).Click();
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[1]/div[4]/button[2]")).Click();
+
+
+            /*Check value of Total Items, Total Payment */
+            Assert.AreEqual(Check_TotalItemsInCart(), "2");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$297.03");
+
+            /*Delete the second item*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[1]/div/div/div[2]/div[4]/button[2]")).Click();
+
+            /* Check that the first item is removed from cart */
+            Assert.AreEqual(Check_TotalItemsInCart(), "1");
+            Assert.AreEqual(Check_TotalPaymentInCart(), "$39.11");
+
+            /*Click Checkout button*/
+            driver.FindElement(By.XPath("//div[@id='root']/main/div/div[2]/div[2]/div/div/button[1]")).Click();
+
+            /*Check that message “Checkout successfully” display*/
+            string checkOutSuccessfullMessage = checkoutDisplayMessage.Text;
+            Assert.IsTrue(checkOutSuccessfullMessage.Contains("Checkout successfull"), checkoutDisplayMessage + "Checkout is Unsuccessfull");
+            driver.Quit();
 
         }
         public string Check_TotalItemsInCart()
